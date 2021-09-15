@@ -1,6 +1,7 @@
 from flask_app import app
 from flask import render_template, redirect, request, session
 from flask_app.models.user import User
+from flask_app.models.recipe import Recipe
 
 
 @app.route('/')
@@ -24,14 +25,46 @@ def registerNewUser():
     print("Form Data", data)
     id = User.insertNewUser(data)
 
-    return redirect(f'/users/{id}')
+    if User.validateRegistration(data):
+        session['id'] = id
+        return redirect(f'/users/{id}')
+    else: 
+        return redirect('/')
 
 @app.route('/login', methods=["POST"])
 def loginUser():
     #match email and password to user in the database and redirect to users/id
-    return "User should go to user dashboard"
+    data = {
+        "email" : request.form['email'],
+        "password": request.form['password']
+    }
+    user = User.validateLogin(data)
+
+    session['email'] = data['email']
+
+    if not user:
+        return redirect('/')
+
+    session['id'] = user.id
+
+    return redirect(f'/users/{session["id"]}')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
 
 @app.route('/users/<int:id>')
 def userDashboard(id):
     #Display user's recipes with options to logout, view more, create a new one , view instrutions, edit or delete
-    return "THis is the user dashboard"
+    if not 'id' in session:
+        print('id not in session... redirecting')
+        return redirect('/')
+
+    if session["id"] != id:
+        print('id in session, but incorrect id redirecting to session id')
+        return redirect(f'/users/{session["id"]}')
+
+    user = User.getUserbyId(id)
+
+    return render_template('user_dashboard.html', user= user)
