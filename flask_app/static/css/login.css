@@ -39,7 +39,11 @@ input{
 
 .navbar {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+}
+
+.navbar *{
+    width: fit-content;
 }
 
 li{

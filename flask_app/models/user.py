@@ -104,8 +104,8 @@ class User:
                     'name': row['name'],
                     'description': row['description'],
                     'instructions': row['instructions'],
-                    'date' : row['date_made'],
-                    'sub30': row['under_30'],
+                    'date_made' : row['date_made'],
+                    'under_30': row['under_30'],
                     'user_id': row['user_id'],
                     'created_at': row['recipes.created_at'],
                     'updated_at': row['recipes.updated_at']

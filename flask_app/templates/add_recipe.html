@@ -21,11 +21,20 @@
                 </li>
             <ul>
         </div>
-        <form action="/add_recipe" method="POST">
+        <form 
+        {% if recipe.id %}
+            action="/edit_recipe" 
+            {% endif %}
+        {% if not recipe.id %}
+            action="/add_recipe" 
+        {% endif %}
+                method="POST">
+
+            <input type="text" value="{{recipe.id}}" name='id' hidden>
             <input type="number" value="{{user.id}}" hidden name="user_id">
             <div class="row">
                 <label for="name">Name:</label>
-                <input type="text" name="name" id="name">
+                <input type="text" name="name" id="name" value="{{recipe.name}}">
             </div>
             {% for category, message in messages %}
                 {% if category == 'name' %}
@@ -37,7 +46,7 @@
         
             <div class="row">
                 <label for="description">Description:</label>
-                <textarea name="description" id="description" cols="30" rows="10" ></textarea>
+                <textarea name="description" id="description" cols="30" rows="10">{{recipe.description}}</textarea>
             </div>
             {% for category, message in messages %}
                 {% if category == 'description' %}
@@ -49,7 +58,7 @@
         
             <div class="row">
                 <label for="instructions">Instructions: </label>
-                <textarea name="instructions" id="instructions" cols="30" rows="10"></textarea>
+                <textarea name="instructions" id="instructions" cols="30" rows="10">{{recipe.instructions}}</textarea>
             </div>
             {% for category, message in messages %}
                 {% if category == 'instructions' %}
@@ -61,7 +70,7 @@
         
             <div class="row">
                 <label for="date">Date Made On: </label>
-                <input type="date" name="date" id='date'>
+                <input type="date" name="date" id='date' value="{{recipe.date}}">
             </div>
             {% for category, message in messages %}
                 {% if category == 'date' %}
@@ -74,9 +83,17 @@
             <div class="row">
                 <p>Cook in under 30 Minutes? </p>
                 <label for="sub30_true">True</label>
-                <input type="radio" value="True" name="sub30" id="sub30_true" class="radio">
+                <input type="radio" value="True" name="sub30" id="sub30_true" class="radio"
+                    {% if recipe.under_30 == 1 %}
+                        checked
+                    {% endif %}
+                >
                 <label for="sub30_false">False</label>
-                <input type="radio" value="False" name="sub30" id="sub30_false" class="radio">
+                <input type="radio" value="False" name="sub30" id="sub30_false" class="radio"
+                    {% if recipe.under_30 ==  0 %}
+                        checked
+                    {% endif %}
+                >
             </div>
             {% for category, message in messages %}
                 {% if category == 'sub30' %}
