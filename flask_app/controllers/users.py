@@ -67,4 +67,6 @@ def userDashboard(id):
 
     user = User.getUserbyId(id)
 
-    return render_template('user_dashboard.html', user= user)
+    recipes = Recipe.getAllRecipes()
+
+    return render_template('user_dashboard.html', user= user, recipes = recipes)

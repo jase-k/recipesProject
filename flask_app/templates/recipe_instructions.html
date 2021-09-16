@@ -34,7 +34,12 @@
                 Under 30 Minutes?
             </th>
             <td>
-                {{recipe.under_30}}
+                {% if recipe.under_30 == 1 %}
+                            Absolutely!
+                        {% endif %}
+                {% if recipe.under_30 == 0 %}
+                    No
+                {% endif %}
             </td>
         </tr>
         <tr>

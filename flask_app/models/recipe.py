@@ -83,3 +83,14 @@ class Recipe:
             return recipe
         else:
             return False
+
+    @classmethod
+    def getAllRecipes(cls):
+        query = "Select * from recipes"
+        
+        results = MySQLConnection(db).query_db(query)
+        recipes = []
+        for recipe in results:
+            recipes.append(cls(recipe))
+        
+        return recipes

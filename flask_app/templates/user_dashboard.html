@@ -26,11 +26,18 @@
                 <th scope="col">Actions</th>
             </tr>
         </thead>
-        {% for recipe in user.recipes %}
+        {% for recipe in recipes %}
             <tbody>
                 <tr>
                     <td>{{recipe.name}}</td>
-                    <td>{{recipe.under_30}}</td>
+                    <td>
+                        {% if recipe.under_30 == 1 %}
+                            Absolutely!
+                        {% endif %}
+                        {% if recipe.under_30 == 0 %}
+                            No
+                        {% endif %}
+                    </td>
                     <td>
                         <a href="/recipes/{{recipe.id}}/view">view instructions</a>
                         {% if recipe.user_id == user.id %}
